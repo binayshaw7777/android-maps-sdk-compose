@@ -1,7 +1,6 @@
 package com.ola.maps.compose
 
 import android.content.ComponentCallbacks2
-import android.content.Context
 import android.content.res.Configuration
 import android.widget.FrameLayout
 import androidx.compose.runtime.Composable
@@ -24,8 +23,8 @@ import com.ola.mapsdk.interfaces.OlaMapCallback
 import com.ola.mapsdk.listeners.OlaMapsCameraListenerManager
 import com.ola.mapsdk.listeners.OlaMapsListenerManager
 import com.ola.mapsdk.model.OlaLatLng
-import com.ola.mapsdk.view.OlaMap as SdkOlaMap
 import com.ola.mapsdk.view.OlaMapView
+import com.ola.mapsdk.view.OlaMap as SdkOlaMap
 
 @Composable
 fun OlaMap(
