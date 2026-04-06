@@ -10,19 +10,41 @@ import com.ola.mapsdk.model.OlaMarkerClusterOptions
 import com.ola.mapsdk.view.ClusteredMarkers as SdkClusteredMarkers
 import com.ola.mapsdk.view.OlaMap as SdkOlaMap
 
+/**
+ * Supported inputs for [ClusteredMarkers].
+ */
 @Immutable
 sealed interface ClusterItems {
+    /**
+     * Raw GeoJSON string input.
+     */
     @Immutable
     data class GeoJson(
         val value: String,
     ) : ClusterItems
 
+    /**
+     * Parsed `FeatureCollection` input from the Ola SDK model.
+     */
     @Immutable
     data class FeatureCollectionData(
         val value: FeatureCollection,
     ) : ClusterItems
 }
 
+/**
+ * Styling and behavior options for [ClusteredMarkers].
+ *
+ * Example:
+ * ```kotlin
+ * val options = ClusterOptions(
+ *     clusterRadius = 40,
+ *     defaultMarkerColor = Color.Red,
+ *     defaultClusterColor = Color(0xFF1D4ED8),
+ *     textColor = Color.White,
+ * )
+ * ```
+ */
 @Immutable
 data class ClusterOptions(
     val clusterRadius: Int = 50,
@@ -35,6 +57,19 @@ data class ClusterOptions(
     val textColor: Color = Color.White,
 )
 
+/**
+ * Adds clustered markers to [OlaMap].
+ *
+ * Example:
+ * ```kotlin
+ * OlaMap(apiKey = BuildConfig.OLA_MAPS_API_KEY) {
+ *     ClusteredMarkers(
+ *         items = ClusterItems.GeoJson(geoJsonString),
+ *         options = ClusterOptions(clusterRadius = 40),
+ *     )
+ * }
+ * ```
+ */
 @Composable
 @OlaMapComposable
 fun ClusteredMarkers(

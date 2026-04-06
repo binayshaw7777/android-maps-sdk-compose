@@ -11,6 +11,28 @@ import com.ola.mapsdk.camera.OlaCameraPosition
 import com.ola.mapsdk.model.OlaLatLng
 import com.ola.mapsdk.view.OlaMap
 
+/**
+ * State holder for reading and controlling the current camera position of [OlaMap].
+ *
+ * Operations called before the map becomes ready are queued and applied after binding.
+ *
+ * Example:
+ * ```kotlin
+ * val cameraPositionState = rememberCameraPositionState()
+ *
+ * Button(
+ *     onClick = {
+ *         cameraPositionState.move(
+ *             target = OlaLatLng(12.931423492103944, 77.61648476788898),
+ *             zoomLevel = 15.0,
+ *             durationMs = 1000,
+ *         )
+ *     },
+ * ) {
+ *     Text("Move Camera")
+ * }
+ * ```
+ */
 @Stable
 class CameraPositionState internal constructor(
     initialPosition: OlaCameraPosition?,
@@ -21,6 +43,9 @@ class CameraPositionState internal constructor(
     var position: OlaCameraPosition? = initialPosition
         internal set
 
+    /**
+     * Moves the camera to [target] at [zoomLevel].
+     */
     fun move(
         target: OlaLatLng,
         zoomLevel: Double,
@@ -32,6 +57,9 @@ class CameraPositionState internal constructor(
         }
     }
 
+    /**
+     * Zooms to [target] using the SDK zoom helper.
+     */
     fun zoomToLocation(
         target: OlaLatLng,
         zoomLevel: Double,
@@ -42,6 +70,9 @@ class CameraPositionState internal constructor(
         }
     }
 
+    /**
+     * Fits the camera to a list of points using the Ola SDK ease-camera behavior.
+     */
     fun easeTo(
         points: List<OlaLatLng>,
         durationMs: Int = 1000,
@@ -52,6 +83,9 @@ class CameraPositionState internal constructor(
         }
     }
 
+    /**
+     * Applies a fully constructed [OlaCameraPosition].
+     */
     fun update(position: OlaCameraPosition) {
         dispatch { sdkMap ->
             sdkMap.updateCameraPosition(position)
@@ -85,6 +119,19 @@ class CameraPositionState internal constructor(
     }
 }
 
+/**
+ * Creates and remembers a [CameraPositionState].
+ *
+ * Example:
+ * ```kotlin
+ * val cameraPositionState = rememberCameraPositionState(
+ *     initialPosition = OlaCameraPosition.Builder()
+ *         .setTarget(OlaLatLng(12.931423492103944, 77.61648476788898))
+ *         .setZoomLevel(14.0)
+ *         .build(),
+ * )
+ * ```
+ */
 @Composable
 fun rememberCameraPositionState(
     initialPosition: OlaCameraPosition? = null,
@@ -94,6 +141,21 @@ fun rememberCameraPositionState(
     CameraPositionState(initialPosition = initialPosition)
 }
 
+/**
+ * Creates and remembers a [CameraPositionState] using an initialization block.
+ *
+ * Example:
+ * ```kotlin
+ * val cameraPositionState = rememberCameraPositionState {
+ *     update(
+ *         OlaCameraPosition.Builder()
+ *             .setTarget(OlaLatLng(12.931423492103944, 77.61648476788898))
+ *             .setZoomLevel(14.0)
+ *             .build(),
+ *     )
+ * }
+ * ```
+ */
 @Composable
 fun rememberCameraPositionState(
     init: CameraPositionState.() -> Unit,

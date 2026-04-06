@@ -4,6 +4,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ComposeNode
 import com.ola.mapsdk.view.OlaMap as SdkOlaMap
 
+/**
+ * Runs imperative work against the raw Ola SDK map instance from within [OlaMap] content.
+ *
+ * Use this when a feature is not yet available as a dedicated declarative wrapper.
+ * Re-executes when [keys] change.
+ *
+ * Example:
+ * ```kotlin
+ * OlaMap(apiKey = BuildConfig.OLA_MAPS_API_KEY) {
+ *     MapEffect(Unit) { olaMap ->
+ *         olaMap.showCurrentLocation()
+ *     }
+ * }
+ * ```
+ */
 @Composable
 @OlaMapComposable
 fun MapEffect(
