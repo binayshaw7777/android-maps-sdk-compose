@@ -3,6 +3,14 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
 }
 
+import java.util.Properties
+
+val localProperties = Properties().apply {
+    rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use(::load)
+}
+
+val olaMapsApiKey = localProperties.getProperty("OLA_MAPS_API_KEY", "")
+
 android {
     namespace = "com.ola.mapsdkdemo"
     compileSdk = 35
@@ -18,6 +26,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        buildConfigField("String", "OLA_MAPS_API_KEY", "\"$olaMapsApiKey\"")
     }
 
     buildTypes {
@@ -38,6 +47,7 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
     composeOptions {
@@ -51,8 +61,7 @@ android {
 }
 
 dependencies {
-    //OlaMap SDK
-    implementation(files("libs/OlaMapSdk-1.8.4.aar"))
+    implementation(project(":ola-maps-compose"))
 
     //Required for OlaMap SDK
     implementation (libs.maplibre.androidSdk)

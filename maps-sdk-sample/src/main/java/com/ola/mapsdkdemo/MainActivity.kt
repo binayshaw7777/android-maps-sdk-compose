@@ -646,7 +646,7 @@ class MainActivity : AppCompatActivity()   {
     private fun initMap(){
         mapView = findViewById(R.id.mapView)
         mapView.getMap(
-            apiKey = "<API_KEY>",
+            apiKey = BuildConfig.OLA_MAPS_API_KEY,
             olaMapCallback = object : OlaMapCallback {
                 override fun onMapReady(olaMap: OlaMap) {
                     this@MainActivity.olaMap = olaMap

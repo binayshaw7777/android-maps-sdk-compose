@@ -24,14 +24,18 @@
         android:theme="@style/Theme.OlaMapSdkDemo"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".ComposeMapActivity"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat">
+            android:theme="@style/Theme.OlaMapSdkDemo">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat" />
     </application>
 
 </manifest>

@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "android-maps-sdk"
 include(":maps-sdk-sample")
+include(":ola-maps-compose")

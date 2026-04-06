@@ -12,7 +12,7 @@ public class Test {
     public static void main(String[] args) {
         com.ola.mapsdk.view.OlaMapView mapView = null;
 
-        mapView.getMap("<API KEY>", new OlaMapCallback() {
+        mapView.getMap(BuildConfig.OLA_MAPS_API_KEY, new OlaMapCallback() {
                     @Override
                     public void onMapReady(OlaMap olaMap) {
                         // Create a marker
