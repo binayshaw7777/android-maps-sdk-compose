@@ -18,6 +18,7 @@
 - [x] Add marker click routing
 - [x] Launch sample app into Compose activity by default
 - [x] Wire API key from `local.properties`
+- [x] Mirror XML sample playground controls in Compose sample
 
 ## Current Gaps
 
@@ -27,7 +28,7 @@
 - [ ] Verify whether info window click events are exposed by the OLA SDK
 - [ ] Decide whether shape click callbacks are possible with the current AAR
 - [ ] Expand clustering API beyond raw GeoJSON / `FeatureCollection`
-- [ ] Add more polished sample scenarios instead of one catch-all screen
+- [ ] Split the Compose playground into more polished showcase scenarios beyond the XML parity screen
 - [ ] Add XML to Compose migration documentation
 - [ ] Add contribution notes for upstreaming to Ola Maps
 
@@ -38,7 +39,7 @@
 - [ ] Prefer Compose-first types over string-heavy SDK builders
 - [x] Expose map initialization errors instead of swallowing them
 - [ ] Ensure sample code is presentation-ready for external sharing
-- [ ] Keep sample app as the primary smoke test surface during development
+- [x] Keep sample app as the primary smoke test surface during development
 
 ## Next Execution Order
 
