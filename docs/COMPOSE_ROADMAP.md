@@ -120,11 +120,11 @@ Ship `ola-maps-compose` as a first-class Compose SDK for OLA Maps with:
 
 ### Milestone 6.5: Automated Test Coverage
 
-- [ ] Add unit tests for camera state queuing and save/restore behavior
-- [ ] Add unit tests for marker state save/restore behavior
+- [x] Add unit tests for camera state save/restore behavior
+- [x] Add unit tests for marker state save/restore behavior
 - [ ] Add unit tests for shape option conversion helpers
-- [ ] Add unit tests for clustering typed-item to GeoJSON conversion
-- [ ] Add unit tests for map settings / properties conversion logic
+- [x] Add unit tests for clustering typed-item to GeoJSON conversion
+- [x] Add unit tests for map settings / properties conversion logic
 - [ ] Add instrumentation or Compose UI tests for sample screen smoke coverage
 - [ ] Add automated UI tests covering key sample sections: marker, shapes, clustering, settings
 - [ ] Keep tests runnable without bundled Ola SDK binaries checked into git
@@ -152,6 +152,15 @@ Ship `ola-maps-compose` as a first-class Compose SDK for OLA Maps with:
 - [ ] Add contribution guide for upstream PR prep
 - [ ] Add deeper module docs guides beyond README and KDoc
 
+### Milestone 8.5: Code Cleanup And Hygiene
+
+- [ ] Add a repeatable lint / static-check step for the repo
+- [ ] Add a code cleanup pass for unused imports and stale sample code
+- [ ] Remove dead code paths that became obsolete during the Compose migration
+- [ ] Review warning output from Kotlin/Gradle and fix low-risk items
+- [ ] Normalize formatting and naming where the new module still drifts
+- [ ] Keep cleanup work as a tracked milestone, not unplanned churn
+
 ### Milestone 9: Benchmark Track
 
 - [x] Create benchmark comparison document
@@ -178,6 +187,7 @@ Ship `ola-maps-compose` as a first-class Compose SDK for OLA Maps with:
 - [ ] Audit public API naming drift
 - [ ] Write README usage snippets for marker, shapes, clustering
 - [ ] Start unit tests for state and conversion logic
+- [ ] Add cleanup checklist for lint, imports, and dead code removal
 
 ### After Immediate
 
@@ -197,8 +207,9 @@ Ship `ola-maps-compose` as a first-class Compose SDK for OLA Maps with:
 
 - [x] `:ola-maps-compose:compileDebugKotlin`
 - [x] `:maps-sdk-sample:compileDebugKotlin`
-- [ ] `:ola-maps-compose:testDebugUnitTest`
-- [ ] Add module-level unit test task coverage for new logic
+- [x] `:ola-maps-compose:testDebugUnitTest`
+- [x] Add module-level unit test task coverage for current state and conversion logic
 - [ ] Add sample instrumentation / Compose UI test coverage
+- [ ] Add lint or equivalent static-check verification
 - [ ] Smoke-test every sample section after each major API expansion
 - [ ] Re-run compile verification after every roadmap milestone

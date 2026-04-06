@@ -165,7 +165,7 @@ fun rememberCameraPositionState(
     CameraPositionState(initialPosition = null).apply(init)
 }
 
-private fun saveOlaCameraPosition(position: OlaCameraPosition): List<Any> =
+internal fun saveOlaCameraPosition(position: OlaCameraPosition): List<Any> =
     listOfNotNull(
         position.target?.latitude,
         position.target?.longitude,
@@ -180,7 +180,7 @@ private fun saveOlaCameraPosition(position: OlaCameraPosition): List<Any> =
         position.paddingBottom,
     )
 
-private fun restoreOlaCameraPosition(values: List<Any>): OlaCameraPosition? {
+internal fun restoreOlaCameraPosition(values: List<Any>): OlaCameraPosition? {
     if (values.size < 11) {
         return null
     }
@@ -204,14 +204,14 @@ private fun restoreOlaCameraPosition(values: List<Any>): OlaCameraPosition? {
         .build()
 }
 
-private val OlaCameraPositionSaver: Saver<OlaCameraPosition, Any> = listSaver(
+internal val OlaCameraPositionSaver: Saver<OlaCameraPosition, Any> = listSaver(
     save = { position ->
         saveOlaCameraPosition(position)
     },
     restore = ::restoreOlaCameraPosition,
 )
 
-private val CameraPositionStateSaver: Saver<CameraPositionState, Any> = Saver(
+internal val CameraPositionStateSaver: Saver<CameraPositionState, Any> = Saver(
     save = { state ->
         state.position?.let(::saveOlaCameraPosition)
     },

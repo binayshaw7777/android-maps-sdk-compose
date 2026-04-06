@@ -294,20 +294,28 @@ private fun nextMarkerId(): Int {
     return markerIdCounter
 }
 
-private val MarkerStateSaver: Saver<MarkerState, Any> = listSaver(
+internal fun saveMarkerPosition(position: OlaLatLng): List<Double> =
+    listOf(
+        position.latitude,
+        position.longitude,
+        position.altitude,
+    )
+
+internal fun restoreMarkerPosition(values: List<Double>): OlaLatLng =
+    OlaLatLng(
+        values[0],
+        values[1],
+        values[2],
+    )
+
+internal val MarkerStateSaver: Saver<MarkerState, Any> = listSaver(
     save = { state ->
-        listOf(
-            state.position.latitude,
-            state.position.longitude,
-            state.position.altitude,
-        )
+        saveMarkerPosition(state.position)
     },
     restore = { values ->
         MarkerState(
-            position = OlaLatLng(
-                values[0] as Double,
-                values[1] as Double,
-                values[2] as Double,
+            position = restoreMarkerPosition(
+                values.map { it as Double },
             ),
         )
     },

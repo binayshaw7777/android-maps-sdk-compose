@@ -10,8 +10,6 @@ import com.ola.mapsdk.model.OlaLatLng
 import com.ola.mapsdk.model.OlaMarkerClusterOptions
 import com.ola.mapsdk.view.ClusteredMarkers as SdkClusteredMarkers
 import com.ola.mapsdk.view.OlaMap as SdkOlaMap
-import org.json.JSONArray
-import org.json.JSONObject
 
 /**
  * Supported inputs for [ClusteredMarkers].
@@ -225,34 +223,61 @@ internal fun ClusterOptions.toSdkOptions(): OlaMarkerClusterOptions =
             .build()
     }
 
-private fun List<ClusterPoint>.toGeoJson(): String {
-    val features = JSONArray()
-    forEach { point ->
-        val propertiesJson = JSONObject()
-        propertiesJson.put("id", point.id)
-        point.properties.forEach { (key, value) ->
-            propertiesJson.put(key, JSONObject.wrap(value))
+internal fun List<ClusterPoint>.toGeoJson(): String {
+    val features = joinToString(
+        prefix = "[",
+        postfix = "]",
+        separator = ",",
+    ) { point ->
+        val properties = buildMap {
+            put("id", point.id)
+            putAll(point.properties)
+        }.entries.joinToString(
+            prefix = "{",
+            postfix = "}",
+            separator = ",",
+        ) { (key, value) ->
+            "\"${key.escapeJson()}\":${value.toJsonValue()}"
         }
 
-        val coordinates = JSONArray()
-            .put(point.position.longitude)
-            .put(point.position.latitude)
-            .put(point.position.altitude)
+        val coordinates = listOf(
+            point.position.longitude.toJsonNumber(),
+            point.position.latitude.toJsonNumber(),
+            point.position.altitude.toJsonNumber(),
+        ).joinToString(
+            prefix = "[",
+            postfix = "]",
+            separator = ",",
+        )
 
-        val geometry = JSONObject()
-            .put("type", "Point")
-            .put("coordinates", coordinates)
-
-        val feature = JSONObject()
-            .put("type", "Feature")
-            .put("properties", propertiesJson)
-            .put("geometry", geometry)
-
-        features.put(feature)
+        """{"type":"Feature","properties":$properties,"geometry":{"type":"Point","coordinates":$coordinates}}"""
     }
 
-    return JSONObject()
-        .put("type", "FeatureCollection")
-        .put("features", features)
-        .toString()
+    return """{"type":"FeatureCollection","features":$features}"""
 }
+
+private fun Any?.toJsonValue(): String =
+    when (this) {
+        null -> "null"
+        is Number -> toJsonNumber()
+        is Boolean -> toString()
+        else -> "\"${toString().escapeJson()}\""
+    }
+
+private fun Number.toJsonNumber(): String = toString()
+
+private fun String.escapeJson(): String =
+    buildString(length) {
+        for (char in this@escapeJson) {
+            when (char) {
+                '\\' -> append("\\\\")
+                '"' -> append("\\\"")
+                '\b' -> append("\\b")
+                '\u000C' -> append("\\f")
+                '\n' -> append("\\n")
+                '\r' -> append("\\r")
+                '\t' -> append("\\t")
+                else -> append(char)
+            }
+        }
+    }

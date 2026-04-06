@@ -68,4 +68,7 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.core.ktx)
+
+    testImplementation(libs.junit)
+    testImplementation(files(olaMapsSdkAarPath))
 }
