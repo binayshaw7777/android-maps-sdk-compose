@@ -8,6 +8,9 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.listSaver
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import com.ola.mapsdk.model.OlaLatLng
 import com.ola.mapsdk.model.OlaMarkerOptions
@@ -24,7 +27,9 @@ class MarkerState internal constructor(
 @Composable
 fun rememberMarkerState(
     position: OlaLatLng,
-): MarkerState = remember(position.latitude, position.longitude) {
+): MarkerState = rememberSaveable(
+    saver = MarkerStateSaver,
+) {
     MarkerState(position = position)
 }
 
@@ -251,3 +256,22 @@ private fun nextMarkerId(): Int {
     markerIdCounter += 1
     return markerIdCounter
 }
+
+private val MarkerStateSaver: Saver<MarkerState, Any> = listSaver(
+    save = { state ->
+        listOf(
+            state.position.latitude,
+            state.position.longitude,
+            state.position.altitude,
+        )
+    },
+    restore = { values ->
+        MarkerState(
+            position = OlaLatLng(
+                values[0] as Double,
+                values[1] as Double,
+                values[2] as Double,
+            ),
+        )
+    },
+)

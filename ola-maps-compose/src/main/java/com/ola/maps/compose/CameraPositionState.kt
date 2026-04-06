@@ -4,6 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.listSaver
+import androidx.compose.runtime.saveable.rememberSaveable
 import com.ola.mapsdk.camera.OlaCameraPosition
 import com.ola.mapsdk.model.OlaLatLng
 import com.ola.mapsdk.view.OlaMap
@@ -85,13 +88,74 @@ class CameraPositionState internal constructor(
 @Composable
 fun rememberCameraPositionState(
     initialPosition: OlaCameraPosition? = null,
-): CameraPositionState = remember {
+): CameraPositionState = rememberSaveable(
+    saver = CameraPositionStateSaver,
+) {
     CameraPositionState(initialPosition = initialPosition)
 }
 
 @Composable
 fun rememberCameraPositionState(
     init: CameraPositionState.() -> Unit,
-): CameraPositionState = remember {
+): CameraPositionState = rememberSaveable(
+    saver = CameraPositionStateSaver,
+) {
     CameraPositionState(initialPosition = null).apply(init)
 }
+
+private fun saveOlaCameraPosition(position: OlaCameraPosition): List<Any> =
+    listOfNotNull(
+        position.target?.latitude,
+        position.target?.longitude,
+        position.target?.altitude,
+        position.bearing,
+        position.tilt,
+        position.zoomLevel,
+        position.duration,
+        position.paddingStart,
+        position.paddingTop,
+        position.paddingEnd,
+        position.paddingBottom,
+    )
+
+private fun restoreOlaCameraPosition(values: List<Any>): OlaCameraPosition? {
+    if (values.size < 11) {
+        return null
+    }
+
+    return OlaCameraPosition.Builder()
+        .setTarget(
+            OlaLatLng(
+                values[0] as Double,
+                values[1] as Double,
+                values[2] as Double,
+            ),
+        )
+        .setBearing(values[3] as Double)
+        .setTilt(values[4] as Double)
+        .setZoomLevel(values[5] as Double)
+        .setDuration(values[6] as Int)
+        .setPaddingStart(values[7] as Int)
+        .setPaddingTop(values[8] as Int)
+        .setPaddingEnd(values[9] as Int)
+        .setPaddingBottom(values[10] as Int)
+        .build()
+}
+
+private val OlaCameraPositionSaver: Saver<OlaCameraPosition, Any> = listSaver(
+    save = { position ->
+        saveOlaCameraPosition(position)
+    },
+    restore = ::restoreOlaCameraPosition,
+)
+
+private val CameraPositionStateSaver: Saver<CameraPositionState, Any> = Saver(
+    save = { state ->
+        state.position?.let(::saveOlaCameraPosition)
+    },
+    restore = { restored ->
+        CameraPositionState(
+            initialPosition = (restored as? List<Any>)?.let(::restoreOlaCameraPosition),
+        )
+    },
+)

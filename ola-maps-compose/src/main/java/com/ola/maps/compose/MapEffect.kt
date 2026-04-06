@@ -7,15 +7,17 @@ import com.ola.mapsdk.view.OlaMap as SdkOlaMap
 @Composable
 @OlaMapComposable
 fun MapEffect(
-    key1: Any? = Unit,
+    vararg keys: Any?,
     block: (SdkOlaMap) -> Unit,
 ) {
+    val effectKeys = keys.toList()
+
     ComposeNode<MapEffectNode, MapApplier>(
         factory = {
             MapEffectNode(block = block)
         },
         update = {
-            set(key1) {
+            set(effectKeys) {
                 runBlock()
             }
             update(block) {

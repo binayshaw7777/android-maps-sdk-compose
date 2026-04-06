@@ -23,7 +23,7 @@
 
 - [ ] Tighten `MapProperties` to cover more safe runtime toggles
 - [ ] Tighten `MapUiSettings` to match the useful XML controls surface
-- [ ] Add saveable camera and marker state ergonomics where appropriate
+- [x] Add saveable camera and marker state ergonomics where appropriate
 - [ ] Verify whether info window click events are exposed by the OLA SDK
 - [ ] Decide whether shape click callbacks are possible with the current AAR
 - [ ] Expand clustering API beyond raw GeoJSON / `FeatureCollection`
@@ -36,6 +36,7 @@
 - [ ] Match Google Maps Compose on API clarity for the supported OLA feature set
 - [ ] Keep raw SDK escape hatches without forcing users into them
 - [ ] Prefer Compose-first types over string-heavy SDK builders
+- [x] Expose map initialization errors instead of swallowing them
 - [ ] Ensure sample code is presentation-ready for external sharing
 - [ ] Keep sample app as the primary smoke test surface during development
 

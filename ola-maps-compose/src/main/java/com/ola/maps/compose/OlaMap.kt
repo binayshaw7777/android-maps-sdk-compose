@@ -34,6 +34,7 @@ fun OlaMap(
     properties: MapProperties = MapProperties(),
     uiSettings: MapUiSettings = MapUiSettings(),
     onMapReady: ((SdkOlaMap) -> Unit)? = null,
+    onMapError: ((String) -> Unit)? = null,
     onMapClick: ((OlaLatLng) -> Unit)? = null,
     onMapLongClick: ((OlaLatLng) -> Unit)? = null,
     onCameraMove: (() -> Unit)? = null,
@@ -45,6 +46,7 @@ fun OlaMap(
     val parentComposition = rememberCompositionContext()
     val currentContent by rememberUpdatedState(content)
     val currentOnMapReady by rememberUpdatedState(onMapReady)
+    val currentOnMapError by rememberUpdatedState(onMapError)
     val currentOnMapClick by rememberUpdatedState(onMapClick)
     val currentOnMapLongClick by rememberUpdatedState(onMapLongClick)
     val currentOnCameraMove by rememberUpdatedState(onCameraMove)
@@ -69,7 +71,9 @@ fun OlaMap(
                             currentOnMapReady?.invoke(olaMap)
                         }
 
-                        override fun onMapError(error: String) = Unit
+                        override fun onMapError(error: String) {
+                            currentOnMapError?.invoke(error)
+                        }
                     },
                     mapControlSettings = uiSettings.toSdkSettings(),
                 )
