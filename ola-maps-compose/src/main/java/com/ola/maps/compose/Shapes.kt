@@ -19,6 +19,10 @@ import com.ola.mapsdk.view.Polygon as SdkPolygon
 import com.ola.mapsdk.view.Polyline as SdkPolyline
 import java.util.Locale
 
+/**
+ * Compose-friendly abstraction for line patterns used by polylines, polygon borders,
+ * and bezier curves.
+ */
 @Immutable
 enum class StrokePattern(
     internal val sdkValue: String,
@@ -27,6 +31,19 @@ enum class StrokePattern(
     Dotted("LINE_DOTTED"),
 }
 
+/**
+ * Compose-friendly border configuration for shapes that support stroke styling.
+ *
+ * Example:
+ * ```kotlin
+ * val border = Border(
+ *     color = Color.Blue,
+ *     width = 2f,
+ *     pattern = StrokePattern.Dotted,
+ *     dashArray = floatArrayOf(2f, 2f),
+ * )
+ * ```
+ */
 @Immutable
 data class Border(
     val color: Color = Color.Black,
@@ -35,6 +52,21 @@ data class Border(
     val dashArray: FloatArray? = null,
 )
 
+/**
+ * Adds a polyline overlay to [OlaMap].
+ *
+ * Example:
+ * ```kotlin
+ * Polyline(
+ *     points = listOf(
+ *         OlaLatLng(12.931423492103944, 77.61648476788898),
+ *         OlaLatLng(12.931758797710456, 77.61436504365439),
+ *     ),
+ *     color = Color.Red,
+ *     width = 6f,
+ * )
+ * ```
+ */
 @Composable
 @OlaMapComposable
 fun Polyline(
@@ -64,6 +96,22 @@ fun Polyline(
     )
 }
 
+/**
+ * Adds a polygon overlay to [OlaMap].
+ *
+ * Example:
+ * ```kotlin
+ * Polygon(
+ *     points = listOf(
+ *         OlaLatLng(12.970467915225672, 77.58815217917578),
+ *         OlaLatLng(12.962675151452494, 77.57848953729078),
+ *         OlaLatLng(12.964623365273798, 77.59560740718187),
+ *     ),
+ *     fillColor = Color(0x442563EB),
+ *     border = Border(color = Color(0xFF2563EB), width = 2f),
+ * )
+ * ```
+ */
 @Composable
 @OlaMapComposable
 fun Polygon(
@@ -93,6 +141,19 @@ fun Polygon(
     )
 }
 
+/**
+ * Adds a circle overlay to [OlaMap].
+ *
+ * Example:
+ * ```kotlin
+ * Circle(
+ *     center = OlaLatLng(12.931423492103944, 77.61648476788898),
+ *     radius = 120f,
+ *     fillColor = Color(0x44DC2626),
+ *     border = Border(color = Color.Red, width = 2f),
+ * )
+ * ```
+ */
 @Composable
 @OlaMapComposable
 fun Circle(
@@ -125,6 +186,19 @@ fun Circle(
     )
 }
 
+/**
+ * Adds a bezier curve overlay to [OlaMap].
+ *
+ * Example:
+ * ```kotlin
+ * BezierCurve(
+ *     start = OlaLatLng(12.931423492103944, 77.61648476788898),
+ *     end = OlaLatLng(12.931758797710456, 77.61436504365439),
+ *     color = Color(0xFFF97316),
+ *     etaMessage = "12 min",
+ * )
+ * ```
+ */
 @Composable
 @OlaMapComposable
 fun BezierCurve(

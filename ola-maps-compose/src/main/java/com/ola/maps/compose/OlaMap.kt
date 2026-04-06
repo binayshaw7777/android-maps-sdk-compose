@@ -26,6 +26,35 @@ import com.ola.mapsdk.model.OlaLatLng
 import com.ola.mapsdk.view.OlaMapView
 import com.ola.mapsdk.view.OlaMap as SdkOlaMap
 
+/**
+ * Entry point for rendering an Ola map inside a Compose hierarchy.
+ *
+ * `OlaMap` hosts the underlying `OlaMapView`, manages its lifecycle, and exposes a declarative
+ * content block for map overlays such as [Marker], [Polyline], [Polygon], [Circle],
+ * [BezierCurve], and [ClusteredMarkers].
+ *
+ * Example:
+ * ```kotlin
+ * val olaCampus = OlaLatLng(12.931423492103944, 77.61648476788898)
+ * val cameraPositionState = rememberCameraPositionState()
+ * val markerState = rememberMarkerState(position = olaCampus)
+ *
+ * OlaMap(
+ *     apiKey = BuildConfig.OLA_MAPS_API_KEY,
+ *     cameraPositionState = cameraPositionState,
+ *     properties = MapProperties(isMyLocationEnabled = true),
+ *     uiSettings = MapUiSettings(isCompassEnabled = true),
+ * ) {
+ *     Marker(
+ *         state = markerState,
+ *         snippet = "Ola Campus",
+ *         subSnippet = "Compose sample",
+ *     )
+ * }
+ * ```
+ *
+ * Use [MapEffect] when a feature has not yet been wrapped declaratively.
+ */
 @Composable
 fun OlaMap(
     apiKey: String,

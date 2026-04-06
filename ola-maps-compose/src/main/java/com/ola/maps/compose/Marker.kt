@@ -17,6 +17,16 @@ import com.ola.mapsdk.model.OlaMarkerOptions
 import com.ola.mapsdk.view.Marker as SdkMarker
 import com.ola.mapsdk.view.OlaMap as SdkOlaMap
 
+/**
+ * Compose state holder for a marker position.
+ *
+ * Example:
+ * ```kotlin
+ * val markerState = rememberMarkerState(
+ *     position = OlaLatLng(12.931423492103944, 77.61648476788898),
+ * )
+ * ```
+ */
 @Stable
 class MarkerState internal constructor(
     position: OlaLatLng,
@@ -24,6 +34,9 @@ class MarkerState internal constructor(
     var position: OlaLatLng by mutableStateOf(position)
 }
 
+/**
+ * Creates and remembers a [MarkerState].
+ */
 @Composable
 fun rememberMarkerState(
     position: OlaLatLng,
@@ -33,6 +46,30 @@ fun rememberMarkerState(
     MarkerState(position = position)
 }
 
+/**
+ * Adds a declarative marker to [OlaMap].
+ *
+ * The marker stays in sync with [state] and supports common SDK updates such as icon changes,
+ * snippet updates, anchor changes, rotation, and size changes.
+ *
+ * Example:
+ * ```kotlin
+ * val olaCampus = OlaLatLng(12.931423492103944, 77.61648476788898)
+ * val markerState = rememberMarkerState(position = olaCampus)
+ *
+ * OlaMap(apiKey = BuildConfig.OLA_MAPS_API_KEY) {
+ *     Marker(
+ *         state = markerState,
+ *         snippet = "Ola Campus",
+ *         subSnippet = "Compose marker",
+ *         iconResId = R.drawable.ic_top_truck,
+ *         onClick = {
+ *             println("Marker clicked")
+ *         },
+ *     )
+ * }
+ * ```
+ */
 @Composable
 @OlaMapComposable
 fun Marker(
