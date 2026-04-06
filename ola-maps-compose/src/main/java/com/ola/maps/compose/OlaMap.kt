@@ -157,10 +157,25 @@ fun OlaMap(
         map?.updateMapUiSettings(uiSettings.toSdkSettings())
     }
 
-    LaunchedEffect(map, properties.isMyLocationEnabled) {
+    LaunchedEffect(
+        map,
+        properties.isMyLocationEnabled,
+        properties.moveCameraToMyLocationOnEnable,
+        properties.myLocationZoomLevel,
+        properties.myLocationAnimationDurationMs,
+    ) {
         val sdkMap = map ?: return@LaunchedEffect
         if (properties.isMyLocationEnabled) {
             sdkMap.showCurrentLocation()
+            if (properties.moveCameraToMyLocationOnEnable) {
+                sdkMap.getCurrentLocation()?.let { currentLocation ->
+                    cameraPositionState.move(
+                        target = currentLocation,
+                        zoomLevel = properties.myLocationZoomLevel,
+                        durationMs = properties.myLocationAnimationDurationMs,
+                    )
+                }
+            }
         } else {
             sdkMap.hideCurrentLocation()
         }

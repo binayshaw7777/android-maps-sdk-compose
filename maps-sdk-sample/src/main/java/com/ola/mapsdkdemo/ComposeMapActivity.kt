@@ -99,6 +99,7 @@ private fun ComposeMapPlayground() {
     var showUiSettingsDialog by rememberSaveable { mutableStateOf(false) }
     var uiSettings by remember { mutableStateOf(MapUiSettings()) }
     var myLocationEnabled by rememberSaveable { mutableStateOf(false) }
+    var moveCameraToMyLocationOnEnable by rememberSaveable { mutableStateOf(false) }
 
     var markerVisible by rememberSaveable { mutableStateOf(false) }
     var markerSnippet by rememberSaveable { mutableStateOf("Compose marker playground") }
@@ -138,10 +139,7 @@ private fun ComposeMapPlayground() {
             "Location permission denied."
         }
         if (granted) {
-            sdkMap?.showCurrentLocation()
-            sdkMap?.getCurrentLocation()?.let {
-                cameraPositionState.move(it, 15.0, durationMs = 800)
-            }
+            moveCameraToMyLocationOnEnable = true
         }
     }
 
@@ -150,7 +148,12 @@ private fun ComposeMapPlayground() {
             apiKey = BuildConfig.OLA_MAPS_API_KEY,
             modifier = Modifier.fillMaxSize(),
             cameraPositionState = cameraPositionState,
-            properties = MapProperties(isMyLocationEnabled = myLocationEnabled),
+            properties = MapProperties(
+                isMyLocationEnabled = myLocationEnabled,
+                moveCameraToMyLocationOnEnable = moveCameraToMyLocationOnEnable,
+                myLocationZoomLevel = 15.0,
+                myLocationAnimationDurationMs = 800,
+            ),
             uiSettings = uiSettings,
             onMapReady = {
                 sdkMap = it
@@ -341,10 +344,7 @@ private fun ComposeMapPlayground() {
                 ) == PackageManager.PERMISSION_GRANTED
                 if (fineGranted || coarseGranted) {
                     myLocationEnabled = true
-                    sdkMap?.showCurrentLocation()
-                    sdkMap?.getCurrentLocation()?.let {
-                        cameraPositionState.move(it, 15.0, durationMs = 800)
-                    }
+                    moveCameraToMyLocationOnEnable = true
                     eventMessage = "Current location enabled."
                 } else {
                     locationPermissionLauncher.launch(
@@ -357,6 +357,7 @@ private fun ComposeMapPlayground() {
             },
             onHideCurrentLocation = {
                 myLocationEnabled = false
+                moveCameraToMyLocationOnEnable = false
                 sdkMap?.hideCurrentLocation()
                 eventMessage = "Current location hidden."
             },
