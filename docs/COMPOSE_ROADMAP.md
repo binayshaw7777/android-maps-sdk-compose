@@ -155,9 +155,9 @@ Ship `ola-maps-compose` as a first-class Compose SDK for OLA Maps with:
 ### Milestone 8.5: Code Cleanup And Hygiene
 
 - [ ] Add a repeatable lint / static-check step for the repo
-- [ ] Add a code cleanup pass for unused imports and stale sample code
-- [ ] Remove dead code paths that became obsolete during the Compose migration
-- [ ] Review warning output from Kotlin/Gradle and fix low-risk items
+- [x] Add a code cleanup pass for unused imports and stale sample code
+- [x] Remove dead code paths that became obsolete during the Compose migration
+- [x] Review warning output from Kotlin/Gradle and fix low-risk items
 - [ ] Normalize formatting and naming where the new module still drifts
 - [ ] Keep cleanup work as a tracked milestone, not unplanned churn
 
@@ -186,8 +186,8 @@ Ship `ola-maps-compose` as a first-class Compose SDK for OLA Maps with:
 
 - [ ] Audit public API naming drift
 - [ ] Write README usage snippets for marker, shapes, clustering
-- [ ] Start unit tests for state and conversion logic
-- [ ] Add cleanup checklist for lint, imports, and dead code removal
+- [x] Start unit tests for state and conversion logic
+- [x] Add cleanup checklist for lint, imports, and dead code removal
 
 ### After Immediate
 

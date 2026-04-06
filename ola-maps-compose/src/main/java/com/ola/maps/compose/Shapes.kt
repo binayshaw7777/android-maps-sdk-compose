@@ -590,14 +590,14 @@ internal class BezierCurveNode(
                 if (dashArray != null) {
                     setLineDashArray(dashArray!!.toTypedArray())
                 }
-                if (etaMessage != null) {
-                    setEtaMessage(this@BezierCurveNode.etaMessage!!)
+                this@BezierCurveNode.etaMessage?.let { message ->
+                    setEtaMessage(message)
                 }
-                if (etaBackgroundColor != null) {
-                    setEtaBgColor(this@BezierCurveNode.etaBackgroundColor!!.toHexString())
+                this@BezierCurveNode.etaBackgroundColor?.let { backgroundColor ->
+                    setEtaBgColor(backgroundColor.toHexString())
                 }
-                if (etaTextColor != null) {
-                    setEtaTextColor(this@BezierCurveNode.etaTextColor!!.toHexString())
+                this@BezierCurveNode.etaTextColor?.let { textColor ->
+                    setEtaTextColor(textColor.toHexString())
                 }
             }
             .build()

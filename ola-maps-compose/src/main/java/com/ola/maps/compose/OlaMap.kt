@@ -234,10 +234,12 @@ fun OlaMap(
     }
 }
 
+@Suppress("DEPRECATION")
 private fun mapViewLowMemoryCallbacks(view: OlaMapView): ComponentCallbacks2 =
     object : ComponentCallbacks2 {
         override fun onConfigurationChanged(newConfig: Configuration) = Unit
 
+        @Deprecated("Deprecated in Android framework callbacks; kept for SDK compatibility.")
         override fun onLowMemory() {
             view.onLowMemory()
         }

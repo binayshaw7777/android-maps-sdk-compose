@@ -180,27 +180,39 @@ internal fun saveOlaCameraPosition(position: OlaCameraPosition): List<Any> =
         position.paddingBottom,
     )
 
-internal fun restoreOlaCameraPosition(values: List<Any>): OlaCameraPosition? {
+internal fun restoreOlaCameraPosition(values: List<*>): OlaCameraPosition? {
     if (values.size < 11) {
         return null
     }
 
+    val latitude = values[0] as? Double ?: return null
+    val longitude = values[1] as? Double ?: return null
+    val altitude = values[2] as? Double ?: return null
+    val bearing = values[3] as? Double ?: return null
+    val tilt = values[4] as? Double ?: return null
+    val zoomLevel = values[5] as? Double ?: return null
+    val duration = values[6] as? Int ?: return null
+    val paddingStart = values[7] as? Int ?: return null
+    val paddingTop = values[8] as? Int ?: return null
+    val paddingEnd = values[9] as? Int ?: return null
+    val paddingBottom = values[10] as? Int ?: return null
+
     return OlaCameraPosition.Builder()
         .setTarget(
             OlaLatLng(
-                values[0] as Double,
-                values[1] as Double,
-                values[2] as Double,
+                latitude,
+                longitude,
+                altitude,
             ),
         )
-        .setBearing(values[3] as Double)
-        .setTilt(values[4] as Double)
-        .setZoomLevel(values[5] as Double)
-        .setDuration(values[6] as Int)
-        .setPaddingStart(values[7] as Int)
-        .setPaddingTop(values[8] as Int)
-        .setPaddingEnd(values[9] as Int)
-        .setPaddingBottom(values[10] as Int)
+        .setBearing(bearing)
+        .setTilt(tilt)
+        .setZoomLevel(zoomLevel)
+        .setDuration(duration)
+        .setPaddingStart(paddingStart)
+        .setPaddingTop(paddingTop)
+        .setPaddingEnd(paddingEnd)
+        .setPaddingBottom(paddingBottom)
         .build()
 }
 
@@ -217,7 +229,7 @@ internal val CameraPositionStateSaver: Saver<CameraPositionState, Any> = Saver(
     },
     restore = { restored ->
         CameraPositionState(
-            initialPosition = (restored as? List<Any>)?.let(::restoreOlaCameraPosition),
+            initialPosition = (restored as? List<*>)?.let(::restoreOlaCameraPosition),
         )
     },
 )

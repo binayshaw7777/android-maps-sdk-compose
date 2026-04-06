@@ -42,7 +42,7 @@ import com.ola.mapsdk.view.Polygon
 import com.ola.mapsdk.view.Polyline
 import org.maplibre.android.style.layers.Property
 
-class MainActivity : AppCompatActivity()   {
+class MainActivity : AppCompatActivity() {
     private lateinit var mapView: OlaMapView
     private lateinit var olaMap: OlaMap
     private var marker1: Marker? = null
@@ -589,10 +589,10 @@ class MainActivity : AppCompatActivity()   {
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-       if(olaMap == null) {
-           Toast.makeText(this, "Map is not ready yet, Please Load the map first", Toast.LENGTH_SHORT).show()
-           return true
-       }
+        if (!::olaMap.isInitialized) {
+            Toast.makeText(this, "Map is not ready yet, Please Load the map first", Toast.LENGTH_SHORT).show()
+            return true
+        }
 
         return when (item.itemId) {
             R.id.action_ui_controls -> {

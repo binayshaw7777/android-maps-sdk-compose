@@ -2,6 +2,7 @@ package com.ola.maps.compose
 
 import com.ola.mapsdk.model.OlaLatLng
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Test
 
 class MarkerStateTest {
@@ -10,8 +11,9 @@ class MarkerStateTest {
         val original = OlaLatLng(12.931423492103944, 77.61648476788898, 8.0)
 
         val restored = restoreMarkerPosition(saveMarkerPosition(original))
+        assertNotNull(restored)
 
-        assertEquals(original.latitude, restored.latitude, 0.0)
+        assertEquals(original.latitude, restored!!.latitude, 0.0)
         assertEquals(original.longitude, restored.longitude, 0.0)
         assertEquals(original.altitude, restored.altitude, 0.0)
     }

@@ -301,22 +301,29 @@ internal fun saveMarkerPosition(position: OlaLatLng): List<Double> =
         position.altitude,
     )
 
-internal fun restoreMarkerPosition(values: List<Double>): OlaLatLng =
-    OlaLatLng(
-        values[0],
-        values[1],
-        values[2],
+internal fun restoreMarkerPosition(values: List<*>): OlaLatLng? {
+    if (values.size < 3) {
+        return null
+    }
+
+    val latitude = values[0] as? Double ?: return null
+    val longitude = values[1] as? Double ?: return null
+    val altitude = values[2] as? Double ?: return null
+
+    return OlaLatLng(
+        latitude,
+        longitude,
+        altitude,
     )
+}
 
 internal val MarkerStateSaver: Saver<MarkerState, Any> = listSaver(
     save = { state ->
         saveMarkerPosition(state.position)
     },
     restore = { values ->
-        MarkerState(
-            position = restoreMarkerPosition(
-                values.map { it as Double },
-            ),
-        )
+        restoreMarkerPosition(values)?.let { position ->
+            MarkerState(position = position)
+        }
     },
 )
