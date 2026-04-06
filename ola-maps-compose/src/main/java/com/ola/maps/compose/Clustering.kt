@@ -6,15 +6,26 @@ import androidx.compose.runtime.ComposeNode
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 import com.ola.mapsdk.model.FeatureCollection
+import com.ola.mapsdk.model.OlaLatLng
 import com.ola.mapsdk.model.OlaMarkerClusterOptions
 import com.ola.mapsdk.view.ClusteredMarkers as SdkClusteredMarkers
 import com.ola.mapsdk.view.OlaMap as SdkOlaMap
+import org.json.JSONArray
+import org.json.JSONObject
 
 /**
  * Supported inputs for [ClusteredMarkers].
  */
 @Immutable
 sealed interface ClusterItems {
+    /**
+     * Compose-friendly typed point items.
+     */
+    @Immutable
+    data class Points(
+        val value: List<ClusterPoint>,
+    ) : ClusterItems
+
     /**
      * Raw GeoJSON string input.
      */
@@ -31,6 +42,19 @@ sealed interface ClusterItems {
         val value: FeatureCollection,
     ) : ClusterItems
 }
+
+/**
+ * Compose-friendly clustering point model.
+ *
+ * [properties] are serialized into GeoJSON feature properties and can contain strings, numbers,
+ * booleans, or null values.
+ */
+@Immutable
+data class ClusterPoint(
+    val id: String,
+    val position: OlaLatLng,
+    val properties: Map<String, Any?> = emptyMap(),
+)
 
 /**
  * Styling and behavior options for [ClusteredMarkers].
@@ -64,7 +88,15 @@ data class ClusterOptions(
  * ```kotlin
  * OlaMap(apiKey = BuildConfig.OLA_MAPS_API_KEY) {
  *     ClusteredMarkers(
- *         items = ClusterItems.GeoJson(geoJsonString),
+ *         items = ClusterItems.Points(
+ *             listOf(
+ *                 ClusterPoint(
+ *                     id = "ola-campus",
+ *                     position = OlaLatLng(12.931423492103944, 77.61648476788898),
+ *                     properties = mapOf("title" to "Ola Campus"),
+ *                 ),
+ *             ),
+ *         ),
  *         options = ClusterOptions(clusterRadius = 40),
  *     )
  * }
@@ -124,6 +156,13 @@ internal class ClusteredMarkersNode(
         val sdkClusteredMarkers = clusteredMarkers
         if (sdkClusteredMarkers != null) {
             when (val currentItems = items) {
+                is ClusterItems.Points -> {
+                    sdkClusteredMarkers.updateClusteredMarkers(
+                        currentItems.value.toGeoJson(),
+                        options.toSdkOptions(),
+                    )
+                }
+
                 is ClusterItems.FeatureCollectionData -> {
                     sdkClusteredMarkers.updateClusteredMarkers(
                         currentItems.value,
@@ -146,6 +185,10 @@ internal class ClusteredMarkersNode(
 
     private fun addClusteredMarkers(map: SdkOlaMap): SdkClusteredMarkers =
         when (val currentItems = items) {
+            is ClusterItems.Points -> {
+                map.addClusteredMarkers(options.toSdkOptions(), currentItems.value.toGeoJson())
+            }
+
             is ClusterItems.FeatureCollectionData -> {
                 map.addClusteredMarkers(options.toSdkOptions(), currentItems.value)
             }
@@ -181,3 +224,35 @@ internal fun ClusterOptions.toSdkOptions(): OlaMarkerClusterOptions =
             }
             .build()
     }
+
+private fun List<ClusterPoint>.toGeoJson(): String {
+    val features = JSONArray()
+    forEach { point ->
+        val propertiesJson = JSONObject()
+        propertiesJson.put("id", point.id)
+        point.properties.forEach { (key, value) ->
+            propertiesJson.put(key, JSONObject.wrap(value))
+        }
+
+        val coordinates = JSONArray()
+            .put(point.position.longitude)
+            .put(point.position.latitude)
+            .put(point.position.altitude)
+
+        val geometry = JSONObject()
+            .put("type", "Point")
+            .put("coordinates", coordinates)
+
+        val feature = JSONObject()
+            .put("type", "Feature")
+            .put("properties", propertiesJson)
+            .put("geometry", geometry)
+
+        features.put(feature)
+    }
+
+    return JSONObject()
+        .put("type", "FeatureCollection")
+        .put("features", features)
+        .toString()
+}
