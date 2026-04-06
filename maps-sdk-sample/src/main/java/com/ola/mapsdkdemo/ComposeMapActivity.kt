@@ -261,9 +261,11 @@ private fun ComposeMapPlayground() {
 
             if (clustersVisible) {
                 ClusteredMarkers(
-                    items = ClusterItems.GeoJson(
-                        if (clusterVariant) alternateClusterGeoJson else defaultClusterGeoJson,
-                    ),
+                    items = if (clusterVariant) {
+                        ClusterItems.GeoJson(alternateClusterGeoJson)
+                    } else {
+                        ClusterItems.Points(defaultClusterPoints)
+                    },
                     options = if (clusterVariant) {
                         ClusterOptions(
                             clusterRadius = 45,
@@ -862,23 +864,18 @@ private val polygonPoints = listOf(
     OlaLatLng(12.964623365273798, 77.59560740718187),
 )
 
-private const val defaultClusterGeoJson = """
-{
-  "type": "FeatureCollection",
-  "features": [
-    { "type": "Feature", "properties": { "id": "p1" }, "geometry": { "type": "Point", "coordinates": [ -122.4194, 37.7749, 0 ] } },
-    { "type": "Feature", "properties": { "id": "p2" }, "geometry": { "type": "Point", "coordinates": [ -122.4140, 37.7792, 0 ] } },
-    { "type": "Feature", "properties": { "id": "p3" }, "geometry": { "type": "Point", "coordinates": [ -122.4090, 37.7815, 0 ] } },
-    { "type": "Feature", "properties": { "id": "p4" }, "geometry": { "type": "Point", "coordinates": [ -118.2437, 34.0522, 0 ] } },
-    { "type": "Feature", "properties": { "id": "p5" }, "geometry": { "type": "Point", "coordinates": [ -118.2480, 34.0490, 0 ] } },
-    { "type": "Feature", "properties": { "id": "p6" }, "geometry": { "type": "Point", "coordinates": [ -118.2395, 34.0460, 0 ] } },
-    { "type": "Feature", "properties": { "id": "p7" }, "geometry": { "type": "Point", "coordinates": [ -87.6298, 41.8781, 0 ] } },
-    { "type": "Feature", "properties": { "id": "p8" }, "geometry": { "type": "Point", "coordinates": [ -87.6200, 41.8810, 0 ] } },
-    { "type": "Feature", "properties": { "id": "p9" }, "geometry": { "type": "Point", "coordinates": [ -74.0060, 40.7128, 0 ] } },
-    { "type": "Feature", "properties": { "id": "p10" }, "geometry": { "type": "Point", "coordinates": [ -73.9990, 40.7160, 0 ] } }
-  ]
-}
-"""
+private val defaultClusterPoints = listOf(
+    com.ola.maps.compose.ClusterPoint("p1", OlaLatLng(37.7749, -122.4194), mapOf("city" to "San Francisco")),
+    com.ola.maps.compose.ClusterPoint("p2", OlaLatLng(37.7792, -122.4140), mapOf("city" to "San Francisco")),
+    com.ola.maps.compose.ClusterPoint("p3", OlaLatLng(37.7815, -122.4090), mapOf("city" to "San Francisco")),
+    com.ola.maps.compose.ClusterPoint("p4", OlaLatLng(34.0522, -118.2437), mapOf("city" to "Los Angeles")),
+    com.ola.maps.compose.ClusterPoint("p5", OlaLatLng(34.0490, -118.2480), mapOf("city" to "Los Angeles")),
+    com.ola.maps.compose.ClusterPoint("p6", OlaLatLng(34.0460, -118.2395), mapOf("city" to "Los Angeles")),
+    com.ola.maps.compose.ClusterPoint("p7", OlaLatLng(41.8781, -87.6298), mapOf("city" to "Chicago")),
+    com.ola.maps.compose.ClusterPoint("p8", OlaLatLng(41.8810, -87.6200), mapOf("city" to "Chicago")),
+    com.ola.maps.compose.ClusterPoint("p9", OlaLatLng(40.7128, -74.0060), mapOf("city" to "New York")),
+    com.ola.maps.compose.ClusterPoint("p10", OlaLatLng(40.7160, -73.9990), mapOf("city" to "New York")),
+)
 
 private const val alternateClusterGeoJson = """
 {

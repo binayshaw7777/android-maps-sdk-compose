@@ -37,7 +37,7 @@ Ship `ola-maps-compose` as a first-class Compose SDK for OLA Maps with:
 - [ ] Tighten `MapUiSettings` around the most useful XML controls surface
 - [ ] Verify whether info window click callbacks exist in the current public AAR
 - [ ] Verify whether shape click callbacks are possible in the current public AAR
-- [ ] Improve clustering ergonomics beyond raw GeoJSON and `FeatureCollection`
+- [x] Improve clustering ergonomics beyond raw GeoJSON and `FeatureCollection`
 - [ ] Split the parity-heavy Compose sample into polished showcase flows
 - [ ] Write XML-to-Compose migration guidance
 - [ ] Prepare contribution notes for upstreaming to Ola Maps
@@ -99,7 +99,7 @@ Ship `ola-maps-compose` as a first-class Compose SDK for OLA Maps with:
 - [x] Support `FeatureCollection` input
 - [x] Support cluster options updates
 - [x] Add sample usage for clustering
-- [ ] Add a friendlier typed item model beyond raw data blobs
+- [x] Add a friendlier typed item model beyond raw data blobs
 - [ ] Decide whether clustering belongs in a separate optional artifact like Google Maps Compose utils
 - [ ] Add docs explaining current clustering limits and tradeoffs
 
@@ -116,6 +116,18 @@ Ship `ola-maps-compose` as a first-class Compose SDK for OLA Maps with:
 - [ ] Split one giant playground into smaller showcase-ready flows
 - [ ] Add a dedicated quickstart sample that is much smaller than the parity demo
 - [ ] Add a migration sample showing XML and Compose side-by-side
+
+### Milestone 6.5: Automated Test Coverage
+
+- [ ] Add unit tests for camera state queuing and save/restore behavior
+- [ ] Add unit tests for marker state save/restore behavior
+- [ ] Add unit tests for shape option conversion helpers
+- [ ] Add unit tests for clustering typed-item to GeoJSON conversion
+- [ ] Add unit tests for map settings / properties conversion logic
+- [ ] Add instrumentation or Compose UI tests for sample screen smoke coverage
+- [ ] Add automated UI tests covering key sample sections: marker, shapes, clustering, settings
+- [ ] Keep tests runnable without bundled Ola SDK binaries checked into git
+- [ ] Make automated tests part of the normal verification checklist
 
 ### Milestone 7: API Tightening
 
@@ -137,6 +149,7 @@ Ship `ola-maps-compose` as a first-class Compose SDK for OLA Maps with:
 - [ ] Add clustering docs with caveats
 - [ ] Add XML-to-Compose migration guide
 - [ ] Add contribution guide for upstream PR prep
+- [ ] Add deeper module docs guides beyond README and KDoc
 
 ### Milestone 9: Benchmark Track
 
@@ -169,6 +182,7 @@ Ship `ola-maps-compose` as a first-class Compose SDK for OLA Maps with:
 ### After Immediate
 
 - [ ] Improve clustering ergonomics
+- [ ] Write dedicated clustering docs for typed items vs raw GeoJSON inputs
 - [ ] Split sample into parity demo plus polished quickstart demo
 - [ ] Write XML-to-Compose migration doc
 - [ ] Turn benchmark matrix into implementation backlog
@@ -183,5 +197,8 @@ Ship `ola-maps-compose` as a first-class Compose SDK for OLA Maps with:
 
 - [x] `:ola-maps-compose:compileDebugKotlin`
 - [x] `:maps-sdk-sample:compileDebugKotlin`
+- [ ] `:ola-maps-compose:testDebugUnitTest`
+- [ ] Add module-level unit test task coverage for new logic
+- [ ] Add sample instrumentation / Compose UI test coverage
 - [ ] Smoke-test every sample section after each major API expansion
 - [ ] Re-run compile verification after every roadmap milestone
