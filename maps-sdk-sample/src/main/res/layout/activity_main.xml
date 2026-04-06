@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+
+    <Button
+        android:id="@+id/btnLoadMap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Load Map"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+    <Button
+        android:id="@+id/btnTest1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="Test 1"/>
+
+
+
+    <Button
+        android:id="@+id/btnTest2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/btnTest1"
+        android:visibility="gone"
+        android:text="Test 2"/>
+
+    <Button
+        android:id="@+id/btnTest3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/btnTest2"
+        android:visibility="gone"
+        android:text="Test 3"/>
+
+    <Button
+        android:id="@+id/btnTest4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnTest1"
+        android:visibility="gone"
+        android:text="Test 4"/>
+
+    <Button
+        android:id="@+id/btnTest5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/btnTest4"
+        app:layout_constraintTop_toBottomOf="@id/btnTest2"
+        android:visibility="gone"
+        android:text="Test 5"/>
+
+    <Button
+        android:id="@+id/btnTest6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/btnTest5"
+        app:layout_constraintTop_toBottomOf="@id/btnTest3"
+        android:visibility="gone"
+        android:text="Test 6"/>
+
+    <Button
+        android:id="@+id/btnTest7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnTest4"
+        android:visibility="gone"
+        android:text="Test 7"/>
+
+    <Button
+        android:id="@+id/btnTest8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/btnTest7"
+        app:layout_constraintTop_toBottomOf="@id/btnTest5"
+        android:visibility="gone"
+        android:text="Test 8"/>
+
+    <Button
+        android:id="@+id/btnTest9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/btnTest8"
+        app:layout_constraintTop_toBottomOf="@id/btnTest6"
+        android:visibility="gone"
+        android:text="Test 9"/>
+
+    <Button
+        android:id="@+id/btnTest10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnTest7"
+        android:visibility="gone"
+        android:text="Test 10"/>
+
+    <com.ola.mapsdk.view.OlaMapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

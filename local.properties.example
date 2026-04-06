@@ -1,0 +1,5 @@
+## Copy values into local.properties on your own machine.
+## Do not commit the real local.properties file.
+sdk.dir=C\:\\Path\\To\\Android\\Sdk
+OLA_MAPS_API_KEY=your_api_key_here
+OLA_MAPS_SDK_AAR=C\:\\path\\to\\OlaMapSdk-1.8.4.aar
