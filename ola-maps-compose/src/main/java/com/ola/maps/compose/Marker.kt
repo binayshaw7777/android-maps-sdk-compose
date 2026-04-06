@@ -43,6 +43,7 @@ fun Marker(
     iconSize: Float = 1f,
     iconAnchor: String? = null,
     iconOffset: FloatArray? = null,
+    onClick: (() -> Unit)? = null,
 ) {
     val position = state.position
 
@@ -61,6 +62,7 @@ fun Marker(
                 iconSize = iconSize,
                 iconAnchor = iconAnchor,
                 iconOffset = iconOffset,
+                onClick = onClick,
             )
         },
         update = {
@@ -77,6 +79,7 @@ fun Marker(
             set(iconSize) { this.iconSize = it }
             set(iconAnchor) { this.iconAnchor = it }
             set(iconOffset) { this.iconOffset = it }
+            update(onClick) { this.onClick = it }
         },
     )
 }
@@ -94,6 +97,7 @@ internal class MarkerNode(
     iconSize: Float,
     iconAnchor: String?,
     iconOffset: FloatArray?,
+    onClick: (() -> Unit)?,
 ) : MapNode() {
     var state: MarkerState = state
         set(value) {
@@ -182,19 +186,30 @@ internal class MarkerNode(
             }
         }
 
+    var onClick: (() -> Unit)? = onClick
+        set(value) {
+            field = value
+            mapContext?.registerMarkerClickListener(markerId, value)
+        }
+
     private var map: SdkOlaMap? = null
+    private var mapContext: MapNodeContext? = null
     private var marker: SdkMarker? = null
     private val markerId = "compose-marker-${nextMarkerId()}"
 
-    override fun onAttached(map: SdkOlaMap) {
-        this.map = map
-        marker = map.addMarker(buildOptions())
+    override fun onAttached(context: MapNodeContext) {
+        mapContext = context
+        map = context.map
+        context.registerMarkerClickListener(markerId, onClick)
+        marker = context.map.addMarker(buildOptions())
     }
 
     override fun onRemoved() {
+        mapContext?.unregisterMarkerClickListener(markerId)
         marker?.removeMarker()
         marker = null
         map = null
+        mapContext = null
     }
 
     private fun refreshMarker() {

@@ -31,8 +31,8 @@ internal class MapEffectNode(
 ) : MapNode() {
     private var map: SdkOlaMap? = null
 
-    override fun onAttached(map: SdkOlaMap) {
-        this.map = map
+    override fun onAttached(context: MapNodeContext) {
+        map = context.map
         runBlock()
     }
 
