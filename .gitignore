@@ -16,3 +16,6 @@
 .cxx
 local.properties
 .tmp-aar/
+*.aar
+maps-sdk-sample/libs/
+local-sdk/

@@ -1,15 +1,18 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
 }
-
-import java.util.Properties
 
 val localProperties = Properties().apply {
     rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use(::load)
 }
 
 val olaMapsApiKey = localProperties.getProperty("OLA_MAPS_API_KEY", "")
+val olaMapsSdkAarPath = localProperties.getProperty("OLA_MAPS_SDK_AAR")
+    ?: System.getenv("OLA_MAPS_SDK_AAR")
+    ?: ""
 
 android {
     namespace = "com.ola.mapsdkdemo"
@@ -61,7 +64,14 @@ android {
 }
 
 dependencies {
+    if (olaMapsSdkAarPath.isBlank()) {
+        throw GradleException(
+            "Missing Ola Maps SDK path. Set OLA_MAPS_SDK_AAR in local.properties or environment variables.",
+        )
+    }
+
     implementation(project(":ola-maps-compose"))
+    implementation(files(olaMapsSdkAarPath))
 
     //Required for OlaMap SDK
     implementation (libs.maplibre.androidSdk)

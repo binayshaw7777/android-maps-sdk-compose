@@ -27,11 +27,16 @@ Add the compose module:
 implementation(project(":ola-maps-compose"))
 ```
 
-The sample app reads the map key from `local.properties`:
+This repo is a wrapper around the official Ola Android SDK and does not redistribute the Ola `.aar`.
+
+Point the project to your locally downloaded SDK in `local.properties`:
 
 ```properties
+OLA_MAPS_SDK_AAR=C:\\path\\to\\OlaMapSdk-1.8.4.aar
 OLA_MAPS_API_KEY=your_key_here
 ```
+
+The sample app and compose module both read `OLA_MAPS_SDK_AAR` from `local.properties` or the `OLA_MAPS_SDK_AAR` environment variable.
 
 ### Compose Quickstart
 
@@ -69,14 +74,21 @@ Compose roadmap and benchmark notes live here:
 ## Setting Up the SDK
 
 ### 1. Download SDK
-Download the Android Map SDK and copy the `OlaMapSdk.aar` file into your app’s `libs` folder.
+Download the official Android Map SDK from Ola and keep the `.aar` in a local path outside git or inside an ignored local folder.
+
+Example `local.properties`:
+
+```properties
+OLA_MAPS_SDK_AAR=C:\\path\\to\\OlaMapSdk-1.8.4.aar
+OLA_MAPS_API_KEY=your_key_here
+```
 
 ### 2. Add SDK Dependency
-Include the SDK in your project by adding the following dependencies to your build.gradle
+Include the locally supplied SDK in your project by adding the following dependency to your build.gradle
 
 ```gradle
 //OlaMap SDK
-implementation(files("libs/OlaMapSdk-1.8.4.aar"))
+implementation(files(providers.gradleProperty("OLA_MAPS_SDK_AAR").orNull ?: System.getenv("OLA_MAPS_SDK_AAR")))
 
 //Maplibre
 implementation ("org.maplibre.gl:android-sdk:11.13.1")
