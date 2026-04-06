@@ -8,7 +8,10 @@ import com.ola.mapsdk.camera.MapControlSettings
  *
  * Example:
  * ```kotlin
- * val properties = MapProperties(isMyLocationEnabled = true)
+ * val properties = MapProperties(
+ *     isMyLocationEnabled = true,
+ *     moveCameraToMyLocationOnEnable = true,
+ * )
  *
  * OlaMap(
  *     apiKey = BuildConfig.OLA_MAPS_API_KEY,
@@ -19,6 +22,9 @@ import com.ola.mapsdk.camera.MapControlSettings
 @Immutable
 data class MapProperties(
     val isMyLocationEnabled: Boolean = false,
+    val moveCameraToMyLocationOnEnable: Boolean = false,
+    val myLocationZoomLevel: Double = 15.0,
+    val myLocationAnimationDurationMs: Int = 800,
 )
 
 /**
@@ -26,11 +32,7 @@ data class MapProperties(
  *
  * Example:
  * ```kotlin
- * val uiSettings = MapUiSettings(
- *     isZoomGesturesEnabled = true,
- *     isCompassEnabled = true,
- *     isRotateGesturesEnabled = false,
- * )
+ * val uiSettings = MapUiSettings.allGesturesDisabled(compassEnabled = true)
  * ```
  */
 @Immutable
@@ -41,7 +43,28 @@ data class MapUiSettings(
     val isCompassEnabled: Boolean = true,
     val isTiltGesturesEnabled: Boolean = true,
     val isDoubleTapGesturesEnabled: Boolean = true,
-)
+) {
+    companion object {
+        /**
+         * Returns the default settings with all supported gestures enabled.
+         */
+        fun allGesturesEnabled(): MapUiSettings = MapUiSettings()
+
+        /**
+         * Returns a settings object with all gesture interactions disabled.
+         */
+        fun allGesturesDisabled(
+            compassEnabled: Boolean = true,
+        ): MapUiSettings = MapUiSettings(
+            isRotateGesturesEnabled = false,
+            isScrollGesturesEnabled = false,
+            isZoomGesturesEnabled = false,
+            isCompassEnabled = compassEnabled,
+            isTiltGesturesEnabled = false,
+            isDoubleTapGesturesEnabled = false,
+        )
+    }
+}
 
 internal fun MapUiSettings.toSdkSettings(): MapControlSettings =
     MapControlSettings.Builder()

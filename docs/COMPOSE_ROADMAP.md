@@ -33,15 +33,14 @@ Ship `ola-maps-compose` as a first-class Compose SDK for OLA Maps with:
 
 ### Open Gaps
 
-- [ ] Expand `MapProperties` only for stable runtime toggles that are safe to recompose
-- [ ] Tighten `MapUiSettings` around the most useful XML controls surface
 - [ ] Verify whether info window click callbacks exist in the current public AAR
 - [ ] Verify whether shape click callbacks are possible in the current public AAR
-- [x] Improve clustering ergonomics beyond raw GeoJSON and `FeatureCollection`
 - [ ] Split the parity-heavy Compose sample into polished showcase flows
 - [ ] Write XML-to-Compose migration guidance
 - [ ] Prepare contribution notes for upstreaming to Ola Maps
 - [ ] Raise docs and demos to benchmark-ready quality
+- [ ] Add automated unit and UI test coverage
+- [ ] Continue API tightening against competitor Compose SDKs
 
 ## Delivery Checklist
 
@@ -62,6 +61,8 @@ Ship `ola-maps-compose` as a first-class Compose SDK for OLA Maps with:
 - [x] Make camera state saveable
 - [x] Add `MarkerState`
 - [x] Make marker state saveable
+- [x] Expand `MapProperties` with safe current-location behavior flags
+- [x] Tighten `MapUiSettings` around actual SDK-supported controls and presets
 - [ ] Audit whether any shape state objects are worth hoisting publicly
 - [ ] Decide whether camera animation progress / movement reason needs public surface
 
@@ -133,8 +134,8 @@ Ship `ola-maps-compose` as a first-class Compose SDK for OLA Maps with:
 
 - [ ] Review all public names against Google Maps Compose patterns
 - [ ] Remove any unnecessary string-heavy parameters from public API where wrappers can be stronger
-- [ ] Expand `MapProperties` with only verified safe toggles
-- [ ] Expand `MapUiSettings` with only meaningful, stable controls
+- [x] Expand `MapProperties` with only verified safe toggles
+- [x] Expand `MapUiSettings` with only meaningful, stable controls
 - [ ] Decide if `MapEffect` needs coroutine or keyed variants beyond current API
 - [ ] Audit saveable behavior across process death and configuration changes
 
@@ -174,10 +175,9 @@ Ship `ola-maps-compose` as a first-class Compose SDK for OLA Maps with:
 
 ### Immediate
 
-- [ ] Expand `MapProperties`
-- [ ] Expand `MapUiSettings`
 - [ ] Audit public API naming drift
 - [ ] Write README usage snippets for marker, shapes, clustering
+- [ ] Start unit tests for state and conversion logic
 
 ### After Immediate
 
