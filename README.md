@@ -3,6 +3,69 @@
 Ola Map Android SDK offers a comprehensive solution for integrating interactive map functionalities into your application.
 By utilizing the Maps SDK for Android, you can incorporate maps powered by Ola's data directly into your app.
 
+## Jetpack Compose Wrapper
+
+This repo now includes an `ola-maps-compose` module that wraps the OLA Android SDK in a declarative Compose API.
+
+Current Compose coverage:
+
+1. `OlaMap`
+2. `Marker`
+3. `Polyline`
+4. `Polygon`
+5. `Circle`
+6. `BezierCurve`
+7. `ClusteredMarkers`
+8. `CameraPositionState`
+9. `MapEffect`
+
+### Compose Setup
+
+Add the compose module:
+
+```gradle
+implementation(project(":ola-maps-compose"))
+```
+
+The sample app reads the map key from `local.properties`:
+
+```properties
+OLA_MAPS_API_KEY=your_key_here
+```
+
+### Compose Quickstart
+
+```kotlin
+val olaCampus = OlaLatLng(12.931423492103944, 77.61648476788898)
+val cameraPositionState = rememberCameraPositionState()
+val markerState = rememberMarkerState(position = olaCampus)
+
+OlaMap(
+    apiKey = BuildConfig.OLA_MAPS_API_KEY,
+    cameraPositionState = cameraPositionState,
+) {
+    Marker(
+        state = markerState,
+        snippet = "Ola Campus",
+        subSnippet = "Compose sample",
+    )
+
+    Polyline(
+        points = listOf(
+            olaCampus,
+            OlaLatLng(12.931758797710456, 77.61436504365439),
+        ),
+    )
+}
+```
+
+The default launcher activity in `maps-sdk-sample` now opens the Compose sample screen.
+
+Compose roadmap and benchmark notes live here:
+
+- `docs/COMPOSE_ROADMAP.md`
+- `docs/COMPOSE_BENCHMARK.md`
+
 ## Setting Up the SDK
 
 ### 1. Download SDK
